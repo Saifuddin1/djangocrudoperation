@@ -1,0 +1,43 @@
+{% extends 'my_app/base.html' %} {% block content %}
+<div class="row mt-5">
+  <div class="col-md-4">
+    <h2 class="alert-info text-center">Add Student</h2>
+    <form action="" method="POST">
+      {% csrf_token %} {{form.as_p}}
+      <input type="submit" class="btn btn-success btn-block" value="Add" />
+    </form>
+  </div>
+  <div class="col-md-7 offset-1">
+    <h2 class="alert-info text-center">Show Student</h2>
+    {% if students %}
+    <table class="table table-hover">
+      <thead>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Password</th>
+        <th scope="col" colspan="2">Action</th>
+      </thead>
+      <tbody>
+        {% for student in students %}
+        <tr>
+          <td>{{student.name}}</td>
+          <td>{{student.email}}</td>
+          <td>{{student.password}}</td>
+          <td>
+            <td>
+                <a href="{% url 'update_student' student.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{% url 'delete_student' student.id %}" method="post" class="d-inline"> {% csrf_token %}
+                 <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                </form>
+                </td>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <h1 class="text-center text-danger">No data is found</h1>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}
